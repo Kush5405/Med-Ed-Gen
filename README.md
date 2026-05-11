@@ -43,6 +43,33 @@ Frontend: Gradio 4.0+ themed with "Medical Soft" styling.
 
 Backend: PyTorch-driven inference engine optimized for consumer-grade hardware .
 
+📁 Repository Structure:
+
+      Med-Ed-Gen-AI-Trainer/
+│
+├── saved_models/               # Weights withheld for IP protection
+│   └── .gitkeep                # Maintains directory structure
+│
+├── src/                        # Core Source Code
+│   ├── __init__.py
+│   ├── models/                 
+│   │   ├── dcgan_gen.py        # Generator architecture
+│   │   └── detector_cnn.py     # Proctor/Detector architecture
+│   │
+│   ├── logic/
+│   │   ├── gamification.py     # Leveling & Badge logic
+│   │   └── stories.py          # Clinical history database
+│   │
+│   └── utils/
+│       ├── heatmap_gen.py      # XAI Proctoring visualization
+│       └── save_manager.py     # Local gallery management
+│
+├── startup_gallery/            # (Auto-generated) Session clinical cases
+├── app.py                      # Main Gradio application
+├── requirements.txt            # Environment dependencies
+├── SETUP_GUIDE.md              # Installation instructions
+└── README.md                   # This documentation
+
 
 🔬 Technical Specifications:
 
