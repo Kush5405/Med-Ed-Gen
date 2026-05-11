@@ -1,4 +1,6 @@
 🏥 Med-Ed Gen: AI Radiology Residency Trainer 🩺
+
+
 (Above: Real-time demonstration of the Med-Ed Gen interface synthesizing synthetic pulmonary pathology and providing XAI proctoring.)
 
 An end-to-end generative AI platform leveraging Deep Convolutional GANs (DCGAN) to synthesize privacy-safe, high-fidelity chest X-rays for clinical diagnostic training and residency simulation.
