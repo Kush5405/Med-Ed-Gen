@@ -1,0 +1,4 @@
+*.pth
+startup_gallery/
+__pycache__/
+.env
