@@ -46,54 +46,68 @@ Backend: PyTorch-driven inference engine optimized for consumer-grade hardware .
 📁 Repository Structure:
 
       Med-Ed-Gen-AI-Trainer/
-│
-├── saved_models/               # Weights withheld for IP protection
-│   └── .gitkeep                # Maintains directory structure
-│
-├── src/                        # Core Source Code
-│   ├── __init__.py
-│   ├── models/                 
-│   │   ├── dcgan_gen.py        # Generator architecture
-│   │   └── detector_cnn.py     # Proctor/Detector architecture
-│   │
-│   ├── logic/
-│   │   ├── gamification.py     # Leveling & Badge logic
-│   │   └── stories.py          # Clinical history database
-│   │
-│   └── utils/
-│       ├── heatmap_gen.py      # XAI Proctoring visualization
-│       └── save_manager.py     # Local gallery management
-│
-├── startup_gallery/            # (Auto-generated) Session clinical cases
-├── app.py                      # Main Gradio application
-├── requirements.txt            # Environment dependencies
-├── SETUP_GUIDE.md              # Installation instructions
-└── README.md                   # This documentation
+      │
+      ├── saved_models/               # Weights withheld for IP protection
+      │   └── .gitkeep                # Maintains directory structure
+      │
+      ├── src/                        # Core Source Code
+      │   ├── __init__.py
+      │   ├── models/                 
+      │   │   ├── dcgan_gen.py        # Generator architecture
+      │   │   └── detector_cnn.py     # Proctor/Detector architecture
+      │
+      │   ├── logic/
+      │   │   ├── gamification.py     # Leveling & Badge logic
+      │   │   └── stories.py          # Clinical history database
+      │   │
+      │   └── utils/
+      │       ├── heatmap_gen.py      # XAI Proctoring visualization
+      │       └── save_manager.py     # Local gallery management
+      │
+      ├── startup_gallery/            # (Auto-generated) Session clinical cases
+      ├── app.py                      # Main Gradio application
+      ├── requirements.txt            # Environment dependencies
+      ├── SETUP_GUIDE.md              # Installation instructions
+      └── README.md                   # This documentation
 
 
 🔬 Technical Specifications:
 
 Custom DCGAN Parameters:
 
-  Input: 100-dimensional latent vector (z)
+      Input: 100-dimensional latent vector (z)
   
-  Optimizer: Adam (\beta_1=0.5, \beta_2=0.999)
+      Optimizer: Adam (\beta_1=0.5, \beta_2=0.999)
   
-  Activation: Leaky ReLU (Discriminator), ReLU (Generator)
+      Activation: Leaky ReLU (Discriminator), ReLU (Generator)
   
-  Normalization: Batch Normalization across all convolutional layers
+      Normalization: Batch Normalization across all convolutional layers
   
-  Output Resolution: 256×256×1 Grayscale
+      Output Resolution: 256×256×1 Grayscale
 
 XAI Proctor Logic:
 
-  Method: Spatial Density 
+      Method: Spatial Density 
   
-  LocalizationVisualization: JET Color Map 
+      LocalizationVisualization: JET Color Map 
   
-  OverlaySensitivity: Pixel Intensity Thresholding (T \ge 200)
+      OverlaySensitivity: Pixel Intensity Thresholding (T \ge 200)
   
-  Logic: Triggered exclusively upon incorrect diagnostic submission to facilitate active learning.
+      Logic: Triggered exclusively upon incorrect diagnostic submission to facilitate active learning.
+
+
+📈 Performance & Milestones:
+
+      | ________________________|_______________________________________|
+      | Metric                  |           Achievement                 |
+      | ________________________|_______________________________________|
+      | Synthesis Resolution    |           256x256 Native              |
+      | Inference Latency       |           < 0.5s (CPU)                |
+      | Gamification Depth      |           Level 1 - ∞                 |
+      | Deployment              |           Local & Hugging Face Spaces |
+      |_________________________|_______________________________________|
+
+       
 
 🎓 Academic Context:
 
