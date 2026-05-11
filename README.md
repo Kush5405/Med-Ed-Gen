@@ -43,24 +43,29 @@ Frontend: Gradio 4.0+ themed with "Medical Soft" styling.
 
 Backend: PyTorch-driven inference engine optimized for consumer-grade hardware .
 
-📁 Repository Structure:
-
-
-
 
 🔬 Technical Specifications:
 
 Custom DCGAN Parameters:
+
   Input: 100-dimensional latent vector (z)
+  
   Optimizer: Adam (\beta_1=0.5, \beta_2=0.999)
+  
   Activation: Leaky ReLU (Discriminator), ReLU (Generator)
+  
   Normalization: Batch Normalization across all convolutional layers
+  
   Output Resolution: 256×256×1 Grayscale
 
 XAI Proctor Logic:
+
   Method: Spatial Density 
+  
   LocalizationVisualization: JET Color Map 
+  
   OverlaySensitivity: Pixel Intensity Thresholding (T \ge 200)
+  
   Logic: Triggered exclusively upon incorrect diagnostic submission to facilitate active learning.
 
 🎓 Academic Context:
@@ -73,19 +78,11 @@ Major: B.Tech Computer Science & AI (2023-2027)
 
 Research Goals:
 
-   Evaluate GAN utility in reducing medical data scarcity.
+    Evaluate GAN utility in reducing medical data scarcity.
 
-   Develop "Human-in-the-Loop" AI training interfaces.
+    Develop "Human-in-the-Loop" AI training interfaces.
 
-   Explore synthetic image fidelity in pulmonary diagnostics.
-
-📈 Performance & Milestones:
-
-Metric :                                                        Achievement :
-Synthesis Resolution                                           256x256 Native
-Inference Latency                                              < 0.5s (CPU)
-Gamification Depth                                             Level 1 - ∞
-Deployment                                                     Local & Hugging Face Spaces
+    Explore synthetic image fidelity in pulmonary diagnostics.
 
 
 🛑 Copyright & Licensing
