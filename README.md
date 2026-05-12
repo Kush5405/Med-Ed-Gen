@@ -27,6 +27,9 @@ Interactive Web Deployment: A low-latency Gradio interface optimized for cross-d
 
 Live Case Gallery: Automated local storage system (startup_gallery) for archiving unique synthetic cases for further study.
 
+https://go.screenpal.com/watch/cOhl1Mntq84
+
+
 🏗️ System Architecture:
 
 Phase 1: Generative Adversarial Pipeline:
