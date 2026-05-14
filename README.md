@@ -16,8 +16,11 @@ Note on Intellectual Property: This repository serves as a technical portfolio d
 Technical Audit Specs:
 
 Architecture: ResNet-18 (Proprietary weights).
-Dataset: 5,232 Clinical Radiographs.Optimization: 
-Adam Optimizer ($lr=1e-4$) with Cross-Entropy Loss.
+
+Dataset: 5,232 Clinical Radiographs.
+
+Optimization: Adam Optimizer ($lr=1e-4$) with Cross-Entropy Loss.
+
 Metric Priority: Sensitivity-Optimized (ensuring 98% detection of pathology).
 
 ✨ Key Features:
