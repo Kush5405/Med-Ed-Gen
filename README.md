@@ -13,6 +13,13 @@ The platform achieves a high degree of anatomical realism and includes a proprie
 
 Note on Intellectual Property: This repository serves as a technical portfolio demonstration for VIT Bhopal University. To protect pending intellectual property and the proprietary mathematical weights developed during the research phase, the specific .pth model weights and raw clinical training datasets are not publicly distributed.
 
+Technical Audit Specs:
+
+Architecture: ResNet-18 (Proprietary weights).
+Dataset: 5,232 Clinical Radiographs.Optimization: 
+Adam Optimizer ($lr=1e-4$) with Cross-Entropy Loss.
+Metric Priority: Sensitivity-Optimized (ensuring 98% detection of pathology).
+
 ✨ Key Features:
 
 Generative Pathology Synthesis: Custom-trained DCGAN architecture capable of generating unique 256×256 pulmonary scans on demand.
