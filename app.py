@@ -23,7 +23,7 @@ def load_models():
     try:
         # 1. The Painter (Generator)
         netG = Generator()
-        netG.load_state_dict(torch.load('gen_pneumonia.pth', map_location='cpu'))
+        netG.load_state_dict(torch.load('.gen_pneumonia.pth', map_location='cpu'))
         netG.eval()
         
         # 2. The Custom Proctor (Proprietary ResNet18 Classifier)
