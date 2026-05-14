@@ -1,6 +1,9 @@
-Torch
-Torchvision
-Numpy
-Gradio
-Opencv-python-headless
-Pillow
+torch
+torchvision
+gradio
+numpy
+opencv-python
+pillow
+seaborn
+matplotlib
+scikit-learn
