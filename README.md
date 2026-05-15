@@ -56,6 +56,11 @@ Frontend: Gradio 4.0+ themed with "Medical Soft" styling.
 
 Backend: PyTorch-driven inference engine optimized for consumer-grade hardware .
 
+<img width="838" height="213" alt="image" src="https://github.com/user-attachments/assets/110565ce-68d0-427a-b57d-fc6c58004a98" />
+
+https://lucid.app/lucidchart/d4b73669-14dd-4fbb-ba2e-36ed8980a296/edit?view_items=DTvXQc4yjzFK&page=0_0&invitationId=inv_eb562b58-7db5-4955-92d5-78887331ef9d
+
+
 📁 Repository Structure:
 
       Med-Ed-Gen-AI-Trainer/
