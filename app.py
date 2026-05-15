@@ -8,6 +8,7 @@ from PIL import Image
 from models import Generator
 import random
 import os
+from datetime import datetime
 
 # --- CONFIGURATION ---
 PATIENT_STORIES = [
@@ -17,7 +18,7 @@ PATIENT_STORIES = [
     "42-year-old patient with a dry cough and shortness of breath."
 ]
 
-# --- STEP 1: LOAD THE BRAINS (Generator + Proprietary Proctor) ---
+# --- STEP 1: LOAD MODELS ---
 def load_models():
     try:
         netG = Generator()
@@ -62,23 +63,21 @@ def get_heatmap(img_array):
     overlay = cv2.addWeighted(img_bgr, 0.6, heatmap, 0.4, 0)
     return cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB)
 
-# --- STEP 3: RECONSTRUCTED INTERFACE ---
+# --- REVISED INTERFACE (Step 3) ---
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     raw_img_state = gr.State()
     truth_label = gr.State()
     conf_state = gr.State()
     streak_counter = gr.State(value=0)
 
-    gr.Markdown("# 🫁 Vveda: Med-Ed-Gen Proctoring Engine")
+    gr.Markdown("# Vveda: Med-Ed-Gen Proctoring Engine")
 
     with gr.Row():
-        # LEFT COLUMN
         with gr.Column(scale=2):
             patient_info = gr.Textbox(label="Patient History", interactive=False)
-            display_img = gr.Image(label="Live Radiograph", height=450)
+            display_img = gr.Image(label="Live Radiograph", height=400)
             admit_btn = gr.Button("Admit Next Patient", variant="stop")
 
-        # RIGHT COLUMN
         with gr.Column(scale=1):
             with gr.Group():
                 gr.Markdown("### Clinical Assessment")
@@ -86,17 +85,16 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
                 submit_btn = gr.Button("Submit Diagnosis", variant="primary")
             
             with gr.Group():
-                proctor_analysis = gr.Markdown("### Proctor Insight\n*Awaiting submission...*")
+                proctor_analysis = gr.Markdown("### Proctor Insight")
                 streak_display = gr.Number(label="Learning Streak", value=0, interactive=False)
                 
-                heatmap_display = gr.Image(
-                    label="Pathology Heatmap", 
-                    visible=False, 
-                    container=False, 
-                    interactive=False,
-                    show_label=True,
-                    height=300
-                )
+                # CHANGE: visible is now TRUE by default so the space exists
+                heatmap_display = gr.Image(label="Visual Pathology Map", visible=True, height=250)
+                
+                gr.Markdown("---")
+                gr.Markdown("### 📥 Archive Clinical Records")
+                xray_download = gr.File(label="Raw X-Ray (.png)")
+                heatmap_download = gr.File(label="Heatmap (.png)")
 
     def update_for_new_patient():
         img, is_p, conf = generate_case()
@@ -109,8 +107,10 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
             patient_info: history,
             proctor_analysis: "### Proctor Insight\n*Patient admitted. Awaiting Assessment...*",
             choice: gr.update(value=None),
-            # FIX: We reset the value to None but don't force visible=False here
-            heatmap_display: gr.update(value=None) 
+            # Reset the heatmap to None so the space looks empty for the new patient
+            heatmap_display: None, 
+            xray_download: None,
+            heatmap_download: None
         }
 
     def evaluate_diagnosis(user_choice, is_p, img, streak, conf):
@@ -120,27 +120,29 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
         new_streak = int(streak) + 1 if correct else 0
         
         status = "✅ **Correct Assessment!**" if correct else "❌ **Incorrect Assessment.**"
-        report = f"### {status}\n**Proctor Verdict:** {actual} detected ({conf_pct:.1f}% confidence)."
+        report = f"### {status}\n**Proctor Verdict:** {actual} ({conf_pct:.1f}% confidence)."
         
         heatmap_img = get_heatmap(img)
+        
+        ts = datetime.now().strftime("%Y%m%d_%H%M%S")
+        xray_name = f"Xray_{ts}_{actual}.png"
+        map_name = f"Heatmap_{ts}_{actual}.png"
+        
+        Image.fromarray(img).save(xray_name)
+        Image.fromarray(heatmap_img).save(map_name)
         
         return {
             proctor_analysis: report,
             streak_counter: new_streak,
             streak_display: new_streak,
-            heatmap_display: gr.update(value=heatmap_img, visible=True)
+            # Simply update the value; visibility is already True
+            heatmap_display: heatmap_img,
+            xray_download: xray_name,
+            heatmap_download: map_name
         }
 
-    # FIX: These were previously indented inside the function, preventing them from triggering
-    admit_btn.click(
-        fn=update_for_new_patient, 
-        outputs=[display_img, raw_img_state, truth_label, conf_state, patient_info, proctor_analysis, choice, heatmap_display]
-    )
-
-    submit_btn.click(
-        fn=evaluate_diagnosis,
-        inputs=[choice, truth_label, raw_img_state, streak_counter, conf_state],
-        outputs=[proctor_analysis, streak_counter, streak_display, heatmap_display]
-    )
+    # Connect buttons (No changes needed here)
+    admit_btn.click(fn=update_for_new_patient, outputs=[display_img, raw_img_state, truth_label, conf_state, patient_info, proctor_analysis, choice, heatmap_display, xray_download, heatmap_download])
+    submit_btn.click(fn=evaluate_diagnosis, inputs=[choice, truth_label, raw_img_state, streak_counter, conf_state], outputs=[proctor_analysis, streak_counter, streak_display, heatmap_display, xray_download, heatmap_download])
 
 demo.launch()
