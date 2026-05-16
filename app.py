@@ -9,6 +9,7 @@ from models import Generator
 import random
 import os
 from datetime import datetime
+from huggingface_hub import hf_hub_download
 
 # --- CONFIGURATION ---
 PATIENT_STORIES = [
@@ -21,19 +22,27 @@ PATIENT_STORIES = [
 # --- STEP 1: LOAD MODELS ---
 def load_models():
     try:
+        from huggingface_hub import hf_hub_download
+
+        # Securely fetching paths from your private model repository
+        gen_path = hf_hub_download(repo_id="Kush5405/vveda-weights-vault", filename="gen_pneumonia.pth")
+        proctor_path = hf_hub_download(repo_id="Kush5405/vveda-weights-vault", filename="vveda_custom_proctor.pth")
+
+        # Loading Generator from the secure local cache path
         netG = Generator()
-        netG.load_state_dict(torch.load('gen_pneumonia.pth', map_location='cpu'))
+        netG.load_state_dict(torch.load(gen_path, map_location='cpu'))
         netG.eval()
         
+        # Loading Proctor from the secure local cache path
         proctor = models.resnet18(weights=None) 
         num_ftrs = proctor.fc.in_features
         proctor.fc = nn.Linear(num_ftrs, 2)
-        proctor.load_state_dict(torch.load('vveda_custom_proctor.pth', map_location='cpu'))
+        proctor.load_state_dict(torch.load(proctor_path, map_location='cpu'))
         proctor.eval()
         
         return netG, proctor
     except Exception as e:
-        print(f"Error loading models: {e}")
+        print(f"Error loading models from secure repository: {e}")
         return None, None
 
 netG, proctor = load_models()
@@ -145,4 +154,11 @@ with gr.Blocks(theme=gr.themes.Soft()) as demo:
     admit_btn.click(fn=update_for_new_patient, outputs=[display_img, raw_img_state, truth_label, conf_state, patient_info, proctor_analysis, choice, heatmap_display, xray_download, heatmap_download])
     submit_btn.click(fn=evaluate_diagnosis, inputs=[choice, truth_label, raw_img_state, streak_counter, conf_state], outputs=[proctor_analysis, streak_counter, streak_display, heatmap_display, xray_download, heatmap_download])
 
-demo.launch()
+# Import the verify function from your new auth file
+from auth import authenticate, AUTH_MSG
+
+# Update the launch command
+demo.launch(
+    auth=authenticate, 
+    auth_message=AUTH_MSG
+)
