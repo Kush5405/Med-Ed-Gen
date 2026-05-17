@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 from PIL import Image
 
-class GradCAM:
+class TrueGradCAM:
     def __init__(self, model, target_layer):
         self.model = model
         self.target_layer = target_layer
